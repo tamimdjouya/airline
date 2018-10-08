@@ -72,6 +72,33 @@
                 });
             }
 
+    function deleteData(id) {
+        console.log("deleting order");
+
+        // Create JS object with data.
+        var deleteFlight = {
+            id : id
+        };
+        console.log(deleteFlight);
+        // Convert JS object to JSON.
+        var validJsonOrder = JSON.stringify(deleteFlight);
+        console.log(validJsonOrder);
+        console.log("Delete flight" + id);
+        // Post JSON to endpoint.
+        $.ajax({
+            url: "api/airplane/" + id,
+            type:"delete",
+            data: validJsonOrder,
+            contentType: "application/json",
+            success: function(result) {
+                // On successful delete.
+                console.log(result);
+                console.log("success delete data!");
+                getData();
+            }
+        });
+    }
+
     $(document).ready( function () {
         // Modal submit.
         $("#newFlightForm").on('submit', function(e) {
@@ -88,6 +115,17 @@
             $("#inputDestination").val("");
             $("#inputDeparture").val("");
         });
+
+        $("#deleteFlightForm").on('submit', function(e) {
+                console.log("Submitted delete order form");
+                // Delete the data.
+                //Get values from html
+                var id = $("#inputDeleteId").val();
+                deleteData(id);
+                // Reset modal to no values.
+                $('#deleteModal').modal('hide');
+                $("#inputDeleteId").val("");
+            });
 
     $('#airplaneTable').DataTable({
                 columns: [
