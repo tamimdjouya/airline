@@ -5,13 +5,15 @@
     <title>AIRPORT</title>
     <link href="//cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" rel="stylesheet" type="text/css" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
-
+    <link rel="stylesheet" src="custom.css">
 </head>
 <body>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+
 
 <script>
 
@@ -47,20 +49,166 @@
     });
 </script>
 
-
-<table id="airplaneTable">
-    <thead>
-        <tr>
-            <th><strong>ID</strong></th>
-            <th><strong>Amount of tank</strong></th>
-            <th><strong>Name</strong></th>
-            <th><strong>Flight number</strong></th>
-            <th><strong>Destination</strong></th>
-            <th><strong>Departure</strong></th>
-        </tr>
+<tbody>
+<table class="airplaneTable table-striped" id="airplaneTable">
+    <thead class="thead-dark">
+    <tr>
+        <th scope="col">#</th>
+        <th scope="col">Amount of tank</th>
+        <th scope="col">Name</th>
+        <th scope="col">Flight number</th>
+        <th scope="col">Destination</th>
+        <th scope="col">Departure</th>
+    </tr>
     </thead>
-    <tbody>
-    </tbody>
 </table>
+
+<div class="row">
+    <div class="col-sm">
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#newModal">New Order</button>
+    </div>
+    <div class="col-sm">
+        <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#editModal">Edit Order</button>
+    </div>
+    <div class="col-sm">
+        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal">Delete Order</button>
+    </div>
+    <!--<div class="col-sm">-->
+        <!--<button id="btnback">Back</button>-->
+    <!--</div>-->
+</div>
+
+<!-- New Order Modal -->
+<div id="newModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">New Flight</h4>
+            </div>
+
+            <div class="modal-body">
+
+                <form data-toggle="validator" role="form" id="newOrderForm" onsubmit="return false;">
+                    <div class="form-group">
+                        <label for="inputAmountOfTank" class="control-label">Amount of tank</label>
+                        <input type="text" class="form-control" id="inputAmountOfTank" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="inputName" class="control-label">Name</label>
+                        <input type="text" class="form-control" id="inputName" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="inputFlightNumber" class="control-label">Flight number</label>
+                        <input type="text" class="form-control" id="inputFlightNumber" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="inputDestination" class="control-label">Destination</label>
+                        <input type="text" class="form-control" id="inputDestination" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="inputDeparture" class="control-label">Departure</label>
+                        <input type="text" class="form-control" id="inputDeparture" required>
+                    </div>
+
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                        <button id="closeButton" type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+    </div>
+</div>
+<!-- End of new Book Modal -->
+
+<!-- edit Order Modal -->
+<div id="editModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Edit Flight</h4>
+            </div>
+
+            <div class="modal-body">
+
+                <form data-toggle="validator" role="form" id="editOrderForm" onsubmit="return false;">
+                    <div class="form-group">
+                        <label for="editAmountOfTank" class="control-label">Amount of Tank</label>
+                        <input type="text" class="form-control" id="editAmountOfTank" data-error="wrong input" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="editName" class="control-label">Status</label>
+                        <input type="text" class="form-control" id="editName" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="editFlightNumber" class="control-label">Flight number</label>
+                        <input type="text" class="form-control" id="editFlightNumber" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="editDestination" class="control-label">Destination</label>
+                        <input type="text" class="form-control" id="editDestination" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="editDeparture" class="control-label">Departure</label>
+                        <input type="text" class="form-control" id="editDeparture" required>
+                    </div>
+
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                        <button id="closeEditButton" type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End of edit Order Modal -->
+
+<!-- Delete Order Modal -->
+<div id="deleteModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Flight</h4>
+            </div>
+
+            <div class="modal-body">
+                <h2>Delete flight</h2>
+                <form data-toggle="validator" role="form" id="deleteFlightForm" onsubmit="return false;">
+
+                    <div class="form-group">
+                        <label for="inputDeleteId" class="control-label">ID</label>
+                        <input type="text" class="form-control" id="inputDeleteId" placeholder="Enter the ID" required>
+                    </div>
+
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                        <button id="deleteCloseButton" type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End of Delete Order Modal -->
+</tbody>
 </body>
 </html>
