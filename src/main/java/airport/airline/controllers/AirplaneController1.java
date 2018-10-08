@@ -12,6 +12,6 @@ public class AirplaneController1 {
 
     public String index(Map<String, Object> model){
         model.put("title", "Airplane");
-        return "data/airplane/index";
+        return "index";
     }
 }
