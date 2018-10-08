@@ -17,6 +17,44 @@
 
 <script>
 
+        function postData() {
+            console.log("posting data...");
+
+            // Get values from html.
+            var inputAmountOfTank = $("#inputAmountOfTank").val();
+            var inputName = $("#inputName").val();
+            var inputFlightNumber = $("#inputFlightNumber").val();
+            var inputDestination = $("#inputDestination").val();
+            var inputDeparture = $("#inputDeparture").val();
+
+            // Create JS object with data.
+            var newFlight = {
+                amountOfTank : inputAmountOfTank,
+                name : inputName,
+                flightnumber : inputFlightNumber,
+                destination : inputDestination,
+                departure : inputDeparture,
+            };
+            console.log(newFlight);
+
+            // Convert JS object to JSON.
+            var validJsonOrder = JSON.stringify(newFlight);
+            console.log(validJsonOrder);
+
+            // Post JSON to endpoint.
+            $.ajax({
+                url:"api/airplane/",
+                type:"post",
+                data: validJsonOrder,
+                contentType: "application/json",
+                success: function(result) {
+                    // On successful post, reload data to get the added one as well.
+                    console.log("success post data!");
+                    getData();
+                }
+            });
+        }
+
     function getData() {
                 console.log("getting data...");
 
@@ -35,6 +73,22 @@
             }
 
     $(document).ready( function () {
+        // Modal submit.
+        $("#newFlightForm").on('submit', function(e) {
+            console.log("Submitted new flight form");
+
+            // Post the data from the modal.
+            postData();
+
+            // Reset modal to hide and no values.
+            $('#newModal').modal('hide');
+            $("#inputAmountOfTank").val("");
+            $("#inputName").val("");
+            $("#inputFlightNumber").val("");
+            $("#inputDestination").val("");
+            $("#inputDeparture").val("");
+        });
+
     $('#airplaneTable').DataTable({
                 columns: [
                     { "data": "id" },
@@ -91,7 +145,7 @@
 
             <div class="modal-body">
 
-                <form data-toggle="validator" role="form" id="newOrderForm" onsubmit="return false;">
+                <form data-toggle="validator" role="form" id="newFlightForm" onsubmit="return false;">
                     <div class="form-group">
                         <label for="inputAmountOfTank" class="control-label">Amount of tank</label>
                         <input type="text" class="form-control" id="inputAmountOfTank" required>
