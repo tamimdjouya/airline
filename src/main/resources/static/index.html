@@ -21,6 +21,7 @@
             console.log("posting data...");
 
             // Get values from html.
+             var id = $("#editId").val();
             var inputAmountOfTank = $("#inputAmountOfTank").val();
             var inputName = $("#inputName").val();
             var inputFlightNumber = $("#inputFlightNumber").val();
@@ -29,6 +30,7 @@
 
             // Create JS object with data.
             var newFlight = {
+                id: id,
                 amountOfTank : inputAmountOfTank,
                 name : inputName,
                 flightnumber : inputFlightNumber,
@@ -71,6 +73,47 @@
                     }
                 });
             }
+
+            function updateData() {
+            console.log("updating data...");
+
+            // Get values from html.
+            var id = $("#editId").val();
+            var editAmountOfTank = $("#editAmountOfTank").val();
+            var editName = $("#editName").val();
+            var editFlightNumber = $("#editFlightNumber").val();
+            var editDestination = $("#editDestination").val();
+            var editDeparture = $("#editDeparture").val();
+
+            // Create JS object with data.
+            var newFlight = {
+                amountOfTank : editAmountOfTank,
+                name : editName,
+                flightnumber : editFlightNumber,
+                destination : editDestination,
+                departure : editDeparture,
+            };
+            console.log("NIEUW FLIGHT: " + newFlight);
+
+            // Convert JS object to JSON.
+            var validJsonOrder = JSON.stringify(newFlight);
+
+            console.log(validJsonOrder);
+
+            // Post JSON to endpoint.
+            $.ajax({
+                url:"api/airplane/" + id,
+                type:"PUT",
+                data: validJsonOrder,
+                contentType: "application/json",
+                success: function(result) {
+                    // On successful post, reload data to get the added one as well.
+                    console.log("success update data!");
+                    getData();
+                }
+            });
+
+        }
 
     function deleteData(id) {
         console.log("deleting order");
@@ -115,6 +158,18 @@
             $("#inputDestination").val("");
             $("#inputDeparture").val("");
         });
+
+         $("#editOrderForm").on('submit', function(e) {
+                console.log("Submitted edit flight form");
+
+                // Post the data from the modal.
+                updateData();
+
+                // Reset modal to hide and no values.
+                $('#editModal').modal('hide');
+                $("#inputTitle").val("");
+                $("#inputAuthor").val("");
+            });
 
         $("#deleteFlightForm").on('submit', function(e) {
                 console.log("Submitted delete order form");
@@ -235,6 +290,10 @@
             <div class="modal-body">
 
                 <form data-toggle="validator" role="form" id="editOrderForm" onsubmit="return false;">
+                    <div class="form-group">
+                        <label for="editId" class="control-label">ID</label>
+                        <input type="text" class="form-control" id="editId" data-error="wrong input" required>
+                    </div>
                     <div class="form-group">
                         <label for="editAmountOfTank" class="control-label">Amount of Tank</label>
                         <input type="text" class="form-control" id="editAmountOfTank" data-error="wrong input" required>
